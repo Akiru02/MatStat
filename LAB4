@@ -1,0 +1,81 @@
+Variant 18 { "Задача": "Методом наименьших квадратов найти коэффициенты линейной регрессии f(x) = w0 + w1 * x + w2 * x * x и вычислить среднеквадратическое отклонение (RMSE). 
+На графике изобразить точки выборки (x, t) и график линейной регрессии.", "x": 
+[ 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9 ], 
+"t": [ 2.0, 1.9, 1.7, 1.4, 1.4, 1.2, 1.4, 1.2, 1.0, 1.0, 1.1, 1.1, 1.2, 0.8, 1.2, 1.3, 1.4, 1.6, 1.7, 1.8 ] }
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load the data
+x = np.array([
+ 1.0,
+ 1.1,
+ 1.2,
+ 1.3,
+ 1.4,
+ 1.5,
+ 1.6,
+ 1.7,
+ 1.8,
+ 1.9,
+ 2.0,
+ 2.1,
+ 2.2,
+ 2.3,
+ 2.4,
+ 2.5,
+ 2.6,
+ 2.7,
+ 2.8,
+ 2.9
+])
+
+t = np.array([
+ 2.0,
+ 1.9,
+ 1.7,
+ 1.4,
+ 1.4,
+ 1.2,
+ 1.4,
+ 1.2,
+ 1.0,
+ 1.0,
+ 1.1,
+ 1.1,
+ 1.2,
+ 0.8,
+ 1.2,
+ 1.3,
+ 1.4,
+ 1.6,
+ 1.7,
+ 1.8
+])
+
+# Define the design matrix
+X = np.vstack([np.ones(len(x)), x, x**2]).T
+
+# Compute the coefficients using least squares
+w, _, _, _ = np.linalg.lstsq(X, t, rcond=None)
+
+# Print the coefficients
+print("Coefficients:")
+print("w0 =", w[0])
+print("w1 =", w[1])
+print("w2 =", w[2])
+
+# Calculate the predicted values
+t_pred = w[0] + w[1]*x + w[2]*x**2
+
+# Calculate the root mean square deviation (RMSE)
+rmse = np.sqrt(np.mean((t - t_pred)**2))
+print("RMSE =", rmse)
+
+# Plot the sample points and the linear regression graph
+plt.scatter(x, t, label="Sample points")
+plt.plot(x, t_pred, label="Linear regression")
+plt.xlabel("x")
+plt.ylabel("t")
+plt.legend()
+plt.show()
