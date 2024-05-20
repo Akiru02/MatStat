@@ -1,0 +1,39 @@
+import numpy as np
+
+# Assume we have a sample of data
+sample = np.array([2.28, 3.36, 3.2, 2.83, 2.52, 3.08, 2.69, 3.27, 2.25, 2, 2.18, 2.88, 2.56, 3.39, 3.18, 3.76, 2.92, 3.26, 2.76, 2.68])
+
+# Calculate the mean
+mean = np.mean(sample)
+print(f'Mean: {mean}')
+
+# Calculate the variance
+variance = np.var(sample)
+print(f'Variance: {variance}')
+
+# Sort the sample data
+sorted_sample = np.sort(sample)
+
+# Create a variation series
+variation_series = np.diff(sorted_sample)
+print('Variation Series:')
+print(variation_series)
+
+# Create an empirical distribution function
+def edf(x, sorted_sample):
+    return np.searchsorted(sorted_sample, x) / len(sorted_sample)
+
+x = np.linspace(sorted_sample.min(), sorted_sample.max(), 100)
+y = edf(x, sorted_sample)
+
+# Plot the empirical distribution function
+import matplotlib.pyplot as plt
+plt.plot(x, y)
+plt.title('Empirical Distribution Function')
+plt.xlabel('x')
+plt.ylabel('Probability')
+plt.show()
+
+На основе выборочных данных среднее значение составляет 2,85, а дисперсия — 0,206. 
+Вариационный ряд показывает различия между последовательными значениями в отсортированных выборочных данных. 
+Эмпирическая функция распределения отображает кумулятивную функцию распределения выборочных данных, которую можно использовать для оценки вероятности наблюдения значения, меньшего или равного заданному значению.
